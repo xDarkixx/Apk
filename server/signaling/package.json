@@ -1,0 +1,9 @@
+{
+  "name": "matrix-camera-signaling",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "ws": "8.18.3"
+  }
+}
