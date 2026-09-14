@@ -11,3 +11,12 @@ services:
     restart: unless-stopped
     ports:
       - "8080:8080"
+
+  turn:
+    image: coturn/coturn:4.6.3
+    restart: unless-stopped
+    command: ["-n", "--log-file=stdout", "--lt-cred-mech", "--realm=${TURN_REALM:-matrix-camera.local}", "--user=${TURN_USER:-matrix}:${TURN_PASSWORD:-change-me}", "--listening-port=3478", "--min-port=49152", "--max-port=49252"]
+    ports:
+      - "3478:3478/tcp"
+      - "3478:3478/udp"
+      - "49152-49252:49152-49252/udp"
