@@ -1,0 +1,13 @@
+services:
+  signaling:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./signaling:/app:ro
+    command: ["node", "server.js"]
+    environment:
+      PORT: "8080"
+      HOST: "0.0.0.0"
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
