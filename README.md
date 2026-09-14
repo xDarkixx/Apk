@@ -1,18 +1,34 @@
 # Matrix Camera
 
-Android-App für eine ausdrücklich freigegebene Kameraquelle.
+Self-hosted Android camera system for **explicitly enabled** remote camera viewing.
 
-## Funktionen
-- Ein Android-Handy kann seine Rückkamera als Live-MJPEG-Quelle bereitstellen.
-- Ein zweites Handy im selben WLAN kann das Livebild anzeigen.
-- Kamera und Viewer werden sichtbar in der App gestartet.
-- Kamera-Berechtigung wird über Android abgefragt.
+## Architecture
 
-## Nutzung
-1. Projekt mit Android Studio öffnen.
-2. APK bauen: `./gradlew assembleDebug`.
-3. App auf Handy A installieren und **KAMERA START** drücken.
-4. Die angezeigte lokale IP-Adresse notieren.
-5. Handy B ins gleiche WLAN bringen, IP-Adresse eintragen und **VIEWER START** drücken.
+- Android camera phone -> WebRTC video
+- Android viewer phone -> WebRTC receiver
+- Your own signaling server -> only exchanges connection/session messages
+- Your own TURN server -> relay fallback when a direct WebRTC connection is not possible
+- No third-party camera cloud is required
+- Server base: Debian 13 + Docker
 
-Der aktuelle Stream ist absichtlich für das lokale Netzwerk ausgelegt. Für Zugriff über das Internet sollte später eine abgesicherte Relay-/WebRTC-Verbindung mit Geräte-Kopplung ergänzt werden; kein heimlicher Kamerazugriff.
+WebRTC uses ICE/STUN/TURN to establish connections across different networks; signaling is a separate service. citeturn0search1turn0search0
+
+## Server
+
+The complete self-hosted server is in `server/`.
+
+Automatic Debian installation:
+
+```bash
+sudo bash server/install-debian.sh
+```
+
+It installs Docker, starts the signaling and TURN containers, and configures them to restart automatically.
+
+## Important
+
+The camera is never designed for hidden activation. The Android user must grant camera permission and explicitly start the camera. Android background-camera operation must follow Android's foreground-service rules and visible system indication.
+
+## Build
+
+GitHub Actions automatically builds the Android debug APK after repository changes and uploads it as an artifact.
