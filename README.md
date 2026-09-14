@@ -11,7 +11,7 @@ Self-hosted Android camera system for **explicitly enabled** remote camera viewi
 - No third-party camera cloud is required
 - Server base: Debian 13 + Docker
 
-WebRTC uses ICE/STUN/TURN to establish connections across different networks; signaling is a separate service. citeturn0search1turn0search0
+WebRTC uses ICE/STUN/TURN to establish connections across different networks; signaling is a separate service.
 
 ## Server
 
