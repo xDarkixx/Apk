@@ -3,11 +3,15 @@ services:
     image: node:22-alpine
     working_dir: /app
     volumes:
-      - ./signaling:/app
-    command: ["sh", "-c", "npm install --omit=dev && node server.js"]
+      - ./signaling:/app:ro
+    command: ["sh", "-c", "npm ci --omit=dev && node server.js"]
     environment:
       PORT: "8080"
       HOST: "0.0.0.0"
+      TURN_HOST: "${TURN_HOST:?Set TURN_HOST to your public server hostname or IP}"
+      TURN_PORT: "3478"
+      TURN_USER: "${TURN_USER:-matrix}"
+      TURN_PASSWORD: "${TURN_PASSWORD:?Set a strong TURN_PASSWORD}"
     restart: unless-stopped
     ports:
       - "8080:8080"
@@ -15,7 +19,17 @@ services:
   turn:
     image: coturn/coturn:4.6.3
     restart: unless-stopped
-    command: ["-n", "--log-file=stdout", "--lt-cred-mech", "--realm=${TURN_REALM:-matrix-camera.local}", "--user=${TURN_USER:-matrix}:${TURN_PASSWORD:-change-me}", "--listening-port=3478", "--min-port=49152", "--max-port=49252"]
+    command:
+      - -n
+      - --log-file=stdout
+      - --lt-cred-mech
+      - --realm=${TURN_REALM:-matrix-camera.local}
+      - --user=${TURN_USER:-matrix}:${TURN_PASSWORD:?Set a strong TURN_PASSWORD}
+      - --listening-port=3478
+      - --fingerprint
+      - --no-cli
+      - --min-port=49152
+      - --max-port=49252
     ports:
       - "3478:3478/tcp"
       - "3478:3478/udp"
