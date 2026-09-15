@@ -4,7 +4,7 @@ services:
     working_dir: /app
     volumes:
       - ./signaling:/app:ro
-    command: ["sh", "-c", "npm ci --omit=dev && node server.js"]
+    command: ["sh", "-c", "npm install --omit=dev && node server.js"]
     environment:
       PORT: "8080"
       HOST: "0.0.0.0"
