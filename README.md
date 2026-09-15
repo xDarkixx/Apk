@@ -15,7 +15,7 @@ The project is configured for Android API 26+ and uses WebRTC for the camera str
 - No third-party camera cloud is required
 - Server base: Debian 13 + Docker
 
-The Android build uses WebRTC `150.7871.01` from Maven Central and NanoHTTPD `2.3.1` for the optional MJPEG components. citeturn1search1turn1search6
+The Android build uses WebRTC `150.7871.01` from Maven Central and NanoHTTPD `2.3.1` for the optional MJPEG components.
 
 ## Server
 
