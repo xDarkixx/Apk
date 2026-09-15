@@ -6,12 +6,26 @@ plugins {
 android {
     namespace = "de.xdarkixx.matrixcamera"
     compileSdk = 35
+
     defaultConfig {
         applicationId = "de.xdarkixx.matrixcamera"
         minSdk = 26
         targetSdk = 35
-        versionCode = 2
-        versionName = "2.0"
+        versionCode = 3
+        versionName = "2.1"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -25,4 +39,5 @@ dependencies {
     implementation("androidx.camera:camera-view:1.4.1")
     implementation("io.github.webrtc-sdk:android:150.7871.01")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("org.nanohttpd:nanohttpd:2.3.1")
 }
