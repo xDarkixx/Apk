@@ -1,9 +1,13 @@
 package de.xdarkixx.matrixcamera
 
 import android.content.Context
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.WebSocket
+import okhttp3.WebSocketListener
 import org.json.JSONObject
 import org.webrtc.*
-import okhttp3.*
 import java.util.concurrent.TimeUnit
 
 class WebRtcEngine(
@@ -62,7 +66,7 @@ class WebRtcEngine(
             override fun onMessage(ws: WebSocket, text: String) {
                 try {
                     handle(JSONObject(text))
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     status("Ungültige Servernachricht")
                 }
             }
@@ -261,7 +265,7 @@ class WebRtcEngine(
         capturer = null
         cameraHelper = null
         cameraSource = null
-        remoteTrack?.let { remoteRenderer?.removeSink(it) }
+        remoteTrack?.let { track -> remoteRenderer?.let { renderer -> track.removeSink(renderer) } }
         remoteTrack = null
         peer?.close()
         peer = null
